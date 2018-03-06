@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 10;
+}
+
+p {
+    font-size: 1.25em;
+}
+
+.container {
+    margin: auto;
+    text-align: center;
+    width: 90%;
+}
+
+.card-bars {
+    border: 2px solid lightgray;
+    margin: auto;
+    padding: 1em 1em 0 1em;
+    width: 90%;
+    min-width: 1000px;
+}
