@@ -1,9 +1,9 @@
 // define the dimensions of the graph display wrt window
-let marginBars = { top: 10, right: 10, bottom: 50, left: 120 };
-let fullWidthBars = 900;
-let fullHeightBars = 500;
-let widthBars = fullWidthBars - marginBars.right - marginBars.left;
-let heightBars = fullHeightBars - marginBars.top - marginBars.bottom;
+let marginMap = { top: 10, right: 10, bottom: 50, left: 120 };
+let fullWidthMap = 900;
+let fullHeightMap = 500;
+let widthMap = fullWidthMap - marginMap.right - marginMap.left;
+let heightMap = fullHeightMap - marginMap.top - marginMap.bottom;
 
 let marginSankey = { top: 0, right: 0, bottom: 0, left: 0 };
 let fullWidthSankey = 1200;
