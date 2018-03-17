@@ -26,6 +26,7 @@ with open(median_income_filename, 'r') as csvfile:
 #         'Hispanic': ,
 #         'NumPoliceKillings': ,
 #         'PoliceKillings': ,
+#         'numEntries': ,
 #     },
 # }
 
@@ -39,7 +40,6 @@ with open(median_income_filename, 'r') as csvfile:
 #         'NativeAmerican': ,
 #         'Asian': ,
 #         'Hispanic': ,
-#         'NumPoliceKillings': ,
-#         'PoliceKillings': ,
+#         'NumEntries': ,
 #     },
 # }
