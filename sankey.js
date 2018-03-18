@@ -1,4 +1,4 @@
-function SankeyDiagram(container, data, initialStates) {
+function SankeyDiagram(container, data) {
     let marginSankey = { top: 0, right: 0, bottom: 0, left: 0 };
     let fullWidthSankey = 500;
     let fullHeightSankey = 250;
@@ -20,6 +20,7 @@ function SankeyDiagram(container, data, initialStates) {
     let sankey_table = [];
     let links = [];
     let sankey_json = {};
+    let num_entries = 0;
 
     let zero_table = get_zero_table(24);
 
@@ -52,7 +53,7 @@ function SankeyDiagram(container, data, initialStates) {
         // format variables
         formatNumberSankey = d3.format(',.2f'); // 2 decimal places
         formatSankey = function (d) {
-            return (formatNumberSankey(d * 100)) + '% of users';
+            return (formatNumberSankey(d / num_entries * 100)) + '% of shootings';
         }
         colorSankey = d3.scaleOrdinal(d3.schemeCategory20);
         // sankey diagram properties
@@ -178,7 +179,7 @@ function SankeyDiagram(container, data, initialStates) {
             if (sankey_entry['threat_level'] === 'other') {
                 sankey_entry['threat_level'] = 'not attack';
             }
-
+            num_entries++;
             sankey_data.push(sankey_entry);
         }
         return sankey_data;

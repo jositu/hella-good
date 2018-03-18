@@ -8,8 +8,8 @@ let heightMap = fullHeightMap - marginMap.top - marginMap.bottom;
 let marginPcoords = { top: 40, right: 20, bottom: 10, left: 50 };
 // let fullWidthPcoords = 900;
 // let fullHeightPcoords = 500;
-let fullWidthPcoords = window.innerWidth * 0.7;
-let fullHeightPcoords = window.innerHeight * 0.5;
+let fullWidthPcoords = window.innerWidth * 0.45;
+let fullHeightPcoords = window.innerHeight * 0.45;
 let widthPcoords = fullWidthPcoords - marginPcoords.right - marginPcoords.left;
 let heightPcoords = fullHeightPcoords - marginPcoords.top - marginPcoords.bottom;
 
