@@ -5,12 +5,6 @@ let fullHeightMap = 500;
 let widthMap = fullWidthMap - marginMap.right - marginMap.left;
 let heightMap = fullHeightMap - marginMap.top - marginMap.bottom;
 
-let marginSankey = { top: 0, right: 0, bottom: 0, left: 0 };
-let fullWidthSankey = 900;
-let fullHeightSankey = 500;
-let widthSankey = fullWidthSankey - marginSankey.right - marginSankey.left;
-let heightSankey = fullHeightSankey - marginSankey.top - marginSankey.bottom;
-
 let marginPcoords = { top: 40, right: 20, bottom: 10, left: 50 };
 // let fullWidthPcoords = 900;
 // let fullHeightPcoords = 500;

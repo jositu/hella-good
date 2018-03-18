@@ -1,6 +1,6 @@
 let marginSankey = { top: 0, right: 0, bottom: 0, left: 0 };
-let fullWidthSankey = 1200;
-let fullHeightSankey = 500;
+let fullWidthSankey = 1000;
+let fullHeightSankey = 1000;
 let widthSankey = fullWidthSankey - marginSankey.right - marginSankey.left;
 let heightSankey = fullHeightSankey - marginSankey.top - marginSankey.bottom;
 
@@ -13,9 +13,9 @@ let linkSankey;
 let nodeSankey;
 
 let zero_table = [];
-for (let i = 0; i < 26; i++) {
+for (let i = 0; i < 24; i++) {
     zero_table.push([]);
-    for (let j = 0; j < 26; j++) {
+    for (let j = 0; j < 24; j++) {
         zero_table[i].push(0);
     }
 }
@@ -41,12 +41,11 @@ d3.csv('data/PoliceKillingsUS.csv', (data) => {
     links = get_links(sankey_table, node_to_index);
     console.log(links);
     sankey_json = { 'nodes': nodes, 'links': links };
-    console.log(sankey_json);
 
-    initSankey(sankey_json);
+    initSankey();
 });
 
-function initSankey(sankey_json) {
+function initSankey() {
     svgSankey =
         d3.select('#sankey-holder')
             .append('svg')
@@ -57,7 +56,7 @@ function initSankey(sankey_json) {
     // format variables
     formatNumberSankey = d3.format(',.2f'); // 2 decimal places
     formatSankey = function (d) {
-        return (formatNumberSankey(d)) + '% of users';
+        return (formatNumberSankey(d * 100)) + '% of users';
     }
     colorSankey = d3.scaleOrdinal(d3.schemeCategory20);
     // sankey diagram properties
@@ -76,42 +75,39 @@ function initSankey(sankey_json) {
         .attr('font-family', 'sans-serif')
         .attr('font-size', 10)
         .selectAll('g');
-
-    console.log(sankey);
-
-    // sankey(sankey_json);
-    // linkSankey = linkSankey
-    //     .data(sankeyData['links'])
-    //     .enter().append('path')
-    //     .attr('d', d3.sankeyLinkHorizontal())
-    //     .attr('stroke-width', (d) => {
-    //         return Math.max(1, d.width);
-    //     });
-    // linkSankey.append('title')
-    //     .text((d) => {
-    //         return d.source.name + " -> " + d.target.name + "\n" + formatSankey(d.value);
-    //     });
-    // nodeSankey = nodeSankey
-    //     .data(sankeyData['nodes'])
-    //     .enter().append('g');
-    // nodeSankey.append('rect')
-    //     .attr('x', (d) => { return d.x0; })
-    //     .attr('y', (d) => { return d.y0; })
-    //     .attr('height', (d) => { return d.y1 - d.y0; })
-    //     .attr('width', (d) => { return d.x1 - d.x0; })
-    //     .attr('fill', (d) => { return colorSankey(d.name.replace(/ .*/, "")); })
-    //     .attr('stroke', '#000');
-    // nodeSankey.append('text')
-    //     .attr('x', (d) => { return d.x0 - 6; })
-    //     .attr('y', (d) => { return (d.y1 + d.y0) / 2; })
-    //     .attr('dy', '0.35em')
-    //     .attr('text-anchor', 'end')
-    //     .text((d) => { return d.name; })
-    //     .filter((d) => { return d.x0 < widthSankey / 2; })
-    //     .attr('x', (d) => { return d.x1 + 6; })
-    //     .attr('text-anchor', 'start');
-    // nodeSankey.append('title')
-    //     .text((d) => { return d.name + '\n' + formatSankey(d.value); });
+    sankey(sankey_json);
+    linkSankey = linkSankey
+        .data(sankey_json['links'])
+        .enter().append('path')
+        .attr('d', d3.sankeyLinkHorizontal())
+        .attr('stroke-width', (d) => {
+            return Math.max(1, d.width);
+        });
+    linkSankey.append('title')
+        .text((d) => {
+            return d.source.name + " -> " + d.target.name + "\n" + formatSankey(d.value);
+        });
+    nodeSankey = nodeSankey
+        .data(sankey_json['nodes'])
+        .enter().append('g');
+    nodeSankey.append('rect')
+        .attr('x', (d) => { return d.x0; })
+        .attr('y', (d) => { return d.y0; })
+        .attr('height', (d) => { return d.y1 - d.y0; })
+        .attr('width', (d) => { return d.x1 - d.x0; })
+        .attr('fill', (d) => { return colorSankey(d.name.replace(/ .*/, "")); })
+        .attr('stroke', '#000');
+    nodeSankey.append('text')
+        .attr('x', (d) => { return d.x0 - 6; })
+        .attr('y', (d) => { return (d.y1 + d.y0) / 2; })
+        .attr('dy', '0.35em')
+        .attr('text-anchor', 'end')
+        .text((d) => { return d.name; })
+        .filter((d) => { return d.x0 < widthSankey / 2; })
+        .attr('x', (d) => { return d.x1 + 6; })
+        .attr('text-anchor', 'start');
+    nodeSankey.append('title')
+        .text((d) => { return d.name + '\n' + formatSankey(d.value); });
 }
 
 function get_links(table, node_to_index) {
@@ -190,6 +186,10 @@ function format_data_to_sankey(data) {
             sankey_entry['signs_of_mental_illness'] = 'not mentally ill';
         }
 
+        if (sankey_entry['threat_level'] === 'other') {
+            sankey_entry['threat_level'] = 'not attack';
+        }
+
         sankey_data.push(sankey_entry);
     }
     return sankey_data;
@@ -214,6 +214,7 @@ function get_all_field_options(dataset) {
     delete options['id'];
     delete options['name'];
     delete options['state'];
+    delete options['manner_of_death'];
     return options;
 }
 
