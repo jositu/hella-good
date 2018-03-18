@@ -128,6 +128,63 @@ function HeatMap(container, data, onUpdate) {
                 .attr("class", "state-borders")
                 .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })));
           });
+
+          
+        var w = 424, h = 50;
+
+        var key = d3.select("#legend1")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+        var legend = key.append("defs")
+        .append("svg:linearGradient")
+        .attr("id", "gradient")
+        .attr("x1", "0%")
+        .attr("y1", "100%")
+        .attr("x2", "100%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad");
+
+        legend.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", d3.interpolateBlues(0))
+        .attr("stop-opacity", 1);
+
+        legend.append("stop")
+        .attr("offset", "50%")
+        .attr("stop-color", d3.interpolateBlues(.5))
+        .attr("stop-opacity", 1);
+
+        legend.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", d3.interpolateBlues(1))
+        .attr("stop-opacity", 1);
+
+        key.append("rect")
+        .attr("width", w)
+        .attr("height", h - 30)
+        .style("fill", "url(#gradient)")
+        .attr("transform", "translate(10,10)");
+
+        var y = d3.scaleLinear()
+        .range([0,424])
+        .domain([0,424]);
+
+        var yAxis = d3.axisBottom()
+        .scale(y)
+        .ticks(5);
+
+        key.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(10,30)")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("axis title");
           
     })
     
