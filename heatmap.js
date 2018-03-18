@@ -4,3 +4,10 @@ let fullHeightMap = 500;
 let widthMap = fullWidthMap - marginMap.right - marginMap.left;
 let heightMap = fullHeightMap - marginMap.top - marginMap.bottom;
 
+function HeatMap(container, data, onUpdate) {
+
+
+
+
+    
+}
