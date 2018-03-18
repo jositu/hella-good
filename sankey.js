@@ -24,21 +24,13 @@ function SankeyDiagram(container, data) {
 
     let zero_table = get_zero_table(24);
 
-
-
-    d3.csv('data/PoliceKillingsUS.csv', (data) => {
-        sankey_json = format_data_to_sankey(data);
-        initSankey();
-    });
-
     function initSankey() {
-        svgSankey =
-            d3.select('#sankey-holder')
-                .append('svg')
-                .attr('width', fullWidthSankey)
-                .attr('height', fullHeightSankey)
-                .append('g')
-                .attr('transform', 'translate(' + marginSankey.left + ',' + marginSankey.top + ')');
+        svgSankey = container
+            .append('svg')
+            .attr('width', fullWidthSankey)
+            .attr('height', fullHeightSankey)
+            .append('g')
+            .attr('transform', 'translate(' + marginSankey.left + ',' + marginSankey.top + ')');
         // format variables
         formatNumberSankey = d3.format(',.2f'); // 2 decimal places
         formatSankey = function (d) {
@@ -134,7 +126,7 @@ function SankeyDiagram(container, data) {
     }
 
     function format_data_to_sankey(data) {
-        console.log(data);
+        // console.log(data);
         let sankey_data = [];
         let sankey_entry = {};
         let mapping = {
@@ -207,15 +199,15 @@ function SankeyDiagram(container, data) {
             sankey_data.push(sankey_entry);
         }
         field_options = get_all_field_options(sankey_data);
-        console.log(field_options);
+        // console.log(field_options);
         nodes = get_nodes(field_options);
-        console.log(nodes);
+        // console.log(nodes);
         node_to_index = get_node_to_index_mapping(nodes);
-        console.log(node_to_index);
+        // console.log(node_to_index);
         sankey_table = get_table(sankey_data, node_to_index, zero_table);
-        console.log(sankey_table);
+        // console.log(sankey_table);
         links = get_links(sankey_table, node_to_index);
-        console.log(links);
+        // console.log(links);
 
         return { 'nodes': nodes, 'links': links };
     }
@@ -274,4 +266,7 @@ function SankeyDiagram(container, data) {
         }
         return table;
     }
+
+    sankey_json = format_data_to_sankey(data);
+    initSankey();
 }
