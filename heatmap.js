@@ -186,7 +186,7 @@ function HeatMap(container, data, onUpdate) {
         .style("text-anchor", "end")
         .text("axis title");
           
-    })
+    });
     
 
 }
