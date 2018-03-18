@@ -31,14 +31,6 @@
     min-width: 100px;
 }
 
-.card {
-    border: 2px solid lightgray;
-    margin: auto;
-    padding: 1em 1em 0 1em;
-    width: 90%;
-    min-width: 1000px;
-}
-
 /* SANKEY */
 .node rect {
     cursor: move;

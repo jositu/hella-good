@@ -8,7 +8,7 @@ let heightMap = fullHeightMap - marginMap.top - marginMap.bottom;
 let marginPcoords = { top: 40, right: 20, bottom: 10, left: 50 };
 // let fullWidthPcoords = 900;
 // let fullHeightPcoords = 500;
-let fullWidthPcoords = window.innerWidth * 0.5;
+let fullWidthPcoords = window.innerWidth * 0.7;
 let fullHeightPcoords = window.innerHeight * 0.5;
 let widthPcoords = fullWidthPcoords - marginPcoords.right - marginPcoords.left;
 let heightPcoords = fullHeightPcoords - marginPcoords.top - marginPcoords.bottom;
@@ -18,10 +18,10 @@ d3.csv('./data/cityData.csv',type,function(data){
     //create map
     var heatMap = new HeatMap(d3.select("#map-holder"),data,
     function() {
-
+        PCoords.update(data, heatMap.selectedStates);
     });
 
-	var PCoords = new Parallel_Coords(d3.select("#pcoords-holder"), data, "AL");
+	var PCoords = new Parallel_Coords(d3.select("#pcoords-holder"), data, ["AL"]);
 })
 
 function type(d) {

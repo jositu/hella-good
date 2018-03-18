@@ -11,14 +11,17 @@ function HeatMap(container, data, onUpdate) {
     var width = boundingBox.width;
     var height = boundingBox.height;
 
-    //console.log(width + ' ' + height);
     var svg = container.append('svg')
-        .attr('width',1000)
-        .attr('height',1000);
+        .attr('width',950)
+        .attr('height',600);
 
     
     var path = d3.geoPath();
     
+    //multi-selection for states
+    states = new Set();
+    this.selectedStates = [];
+    var me = this;
      var idToState  = {
        1 : 'AL', 
        2 : 'AK', 
@@ -110,15 +113,80 @@ function HeatMap(container, data, onUpdate) {
                 .attr("d", path)
               .attr('fill',function(d) { return d3.interpolateBlues(scale(policeShootings[idToState[parseInt(d.id)]]));})
               .on('click',function(d) {
-                  console.log(idToState[parseInt(d.id)]);
+                  var state = idToState[parseInt(d.id)];
+                  if (states.has(state)) {
+                      states.delete(state);
+                  } else {
+                      states.add(state);
+                  }
+                  me.selectedStates = [...states];
+                  console.log(me.selectedStates);
+                  onUpdate();
               })
           
             svg.append("path")
                 .attr("class", "state-borders")
                 .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })));
           });
+
           
-    })
+        var w = 424, h = 50;
+
+        var key = d3.select("#legend1")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h);
+
+        var legend = key.append("defs")
+        .append("svg:linearGradient")
+        .attr("id", "gradient")
+        .attr("x1", "0%")
+        .attr("y1", "100%")
+        .attr("x2", "100%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad");
+
+        legend.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", d3.interpolateBlues(0))
+        .attr("stop-opacity", 1);
+
+        legend.append("stop")
+        .attr("offset", "50%")
+        .attr("stop-color", d3.interpolateBlues(.5))
+        .attr("stop-opacity", 1);
+
+        legend.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", d3.interpolateBlues(1))
+        .attr("stop-opacity", 1);
+
+        key.append("rect")
+        .attr("width", w)
+        .attr("height", h - 30)
+        .style("fill", "url(#gradient)")
+        .attr("transform", "translate(10,10)");
+
+        var y = d3.scaleLinear()
+        .range([0,424])
+        .domain([0,424]);
+
+        var yAxis = d3.axisBottom()
+        .scale(y)
+        .ticks(5);
+
+        key.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(10,30)")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("axis title");
+          
+    });
     
 
 }
