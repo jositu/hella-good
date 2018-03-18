@@ -13,27 +13,23 @@
 
 <body>
   <div class="container">
-    <h2>ECS163 Final</h2>
-
-    <div class="card" id="map-holder">
-
+    <div class="card" id="header">
+      <h1>ECS163 Final</h1>
+      <h4>Dataset:
+        <a href="https://www.kaggle.com/kwullum/fatal-police-shootings-in-the-us/data">US Police shootings since 2015</a>
+      </h4>
     </div>
-    <div class="card" id="sankey-holder">
+    <div class="card" id="map-holder"></div>
+    <div class="card" id="pcoords-holder"></div>
+    <div class="card" id="sankey-holder"></div>
 
-    </div>
-    <div class="card" id="pcoords-holder">
-
-    </div>
-
-    <h3>Dataset:
-      <a href="https://www.kaggle.com/kwullum/fatal-police-shootings-in-the-us/data">US Police shootings since 2015</a>
-    </h3>
   </div>
 
   <script src="d3/d3.min.js"></script>
   <script src="d3sankey.js"></script>
 
   <script src="app.js"></script>
+  <script src="pcoords.js"></script>
 </body>
 
 </html>
