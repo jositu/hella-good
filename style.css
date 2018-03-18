@@ -13,10 +13,31 @@ p {
     width: 90%;
 }
 
-.card-bars {
+.card {
     border: 2px solid lightgray;
     margin: auto;
     padding: 1em 1em 0 1em;
     width: 90%;
     min-width: 1000px;
+}
+
+.node rect {
+    cursor: move;
+    fill-opacity: .9;
+    shape-rendering: crispEdges;
+}
+
+.node text {
+    pointer-events: none;
+    font-size: 12px;
+}
+
+.link {
+    fill: none;
+    stroke: #000;
+    stroke-opacity: .16;
+}
+
+.link:hover {
+    stroke-opacity: .5;
 }
