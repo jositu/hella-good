@@ -14,14 +14,14 @@ let widthPcoords = fullWidthPcoords - marginPcoords.right - marginPcoords.left;
 let heightPcoords = fullHeightPcoords - marginPcoords.top - marginPcoords.bottom;
 
 
-d3.csv('./data/cityData.csv',type,function(data){
+d3.csv('./data/cityData.csv', type, function (data) {
     //create map
-    var heatMap = new HeatMap(d3.select("#map-holder"),data,
-    function() {
-        PCoords.update(data, heatMap.selectedStates);
-    });
+    var heatMap = new HeatMap(d3.select("#map-holder"), data,
+        function () {
+            PCoords.update(data, heatMap.selectedStates);
+        });
 
-	var PCoords = new Parallel_Coords(d3.select("#pcoords-holder"), data, ["AL"]);
+    var PCoords = new Parallel_Coords(d3.select("#pcoords-holder"), data, ["AL"]);
 })
 
 function type(d) {

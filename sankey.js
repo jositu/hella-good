@@ -1,6 +1,6 @@
 let marginSankey = { top: 0, right: 0, bottom: 0, left: 0 };
-let fullWidthSankey = 1000;
-let fullHeightSankey = 1000;
+let fullWidthSankey = 500;
+let fullHeightSankey = 250;
 let widthSankey = fullWidthSankey - marginSankey.right - marginSankey.left;
 let heightSankey = fullHeightSankey - marginSankey.top - marginSankey.bottom;
 
