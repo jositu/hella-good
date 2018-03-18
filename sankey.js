@@ -24,6 +24,8 @@ function SankeyDiagram(container, data) {
 
     let zero_table = get_zero_table(24);
 
+
+
     d3.csv('data/PoliceKillingsUS.csv', (data) => {
         console.log(data);
         sankey_data = format_data_to_sankey(data);
@@ -143,6 +145,32 @@ function SankeyDiagram(container, data) {
     function format_data_to_sankey(data) {
         let sankey_data = [];
         let sankey_entry = {};
+        let mapping = {
+            'gun': 'armed',
+            'unarmed': 'unarmed',
+            'hand weapon': 'hand weapon',
+            'vehicle': 'vehicle',
+            'undetermined if armed': 'undetermined if armed',
+            'm': 'male',
+            'f': 'female',
+            'a': 'asian',
+            'w': 'white',
+            'h': 'hispanic',
+            'b': 'black',
+            'o': 'other race',
+            'n': 'native american',
+            'mentally ill': 'mentally ill',
+            'not mentally ill': 'not mentally ill',
+            'attack': 'attacking',
+            'not attacking': 'not attacking',
+            'undetermined': 'undetermined',
+            'not fleeing': 'not fleeing',
+            'car': 'fleeing by car',
+            'foot': 'fleeing on foot',
+            'other': 'unsure',
+            'no body camera': 'no body camera',
+            'body camera': 'body camera',
+        }
         for (entry of data) {
             if (entry['flee'] === '' || entry['race'] === '' || entry['armed'] === '') {
                 continue;
@@ -177,16 +205,22 @@ function SankeyDiagram(container, data) {
             }
 
             if (sankey_entry['threat_level'] === 'other') {
-                sankey_entry['threat_level'] = 'not attack';
+                sankey_entry['threat_level'] = 'not attacking';
+            }
+
+            for (key in sankey_entry) {
+                sankey_entry[key] = mapping[sankey_entry[key]];
             }
             num_entries++;
             sankey_data.push(sankey_entry);
         }
+
         return sankey_data;
     }
 
     function get_all_field_options(dataset) {
         let options = {};
+
         for (entry of dataset) {
             for (key in entry) {
                 if (!(key in options)) {
