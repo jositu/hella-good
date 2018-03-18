@@ -4,7 +4,7 @@
 // let widthMap = fullWidthMap - marginMap.right - marginMap.left;
 // let heightMap = fullHeightMap - marginMap.top - marginMap.bottom;
 
-function HeatMap(container, data, onUpdate) {
+function HeatMap(container, onUpdate) {
 
     var boundingBox = container.node().getBoundingClientRect();
 
@@ -93,7 +93,6 @@ function HeatMap(container, data, onUpdate) {
             } else {
                 policeShootings[datum.state]++;
             }
-
         })
 
         var max = d3.max(d3.values(policeShootings));
