@@ -11,7 +11,6 @@ function HeatMap(container, data, onUpdate) {
     var width = boundingBox.width;
     var height = boundingBox.height;
 
-    //console.log(width + ' ' + height);
     var svg = container.append('svg')
         .attr('width',950)
         .attr('height',600);
@@ -19,6 +18,10 @@ function HeatMap(container, data, onUpdate) {
     
     var path = d3.geoPath();
     
+    //multi-selection for states
+    states = new Set();
+    this.selectedStates = [];
+    var me = this;
      var idToState  = {
        1 : 'AL', 
        2 : 'AK', 
@@ -110,7 +113,15 @@ function HeatMap(container, data, onUpdate) {
                 .attr("d", path)
               .attr('fill',function(d) { return d3.interpolateBlues(scale(policeShootings[idToState[parseInt(d.id)]]));})
               .on('click',function(d) {
-                  console.log(idToState[parseInt(d.id)]);
+                  var state = idToState[parseInt(d.id)];
+                  if (states.has(state)) {
+                      states.delete(state);
+                  } else {
+                      states.add(state);
+                  }
+                  me.selectedStates = [...states];
+                  console.log(me.selectedStates);
+                  onUpdate();
               })
           
             svg.append("path")
