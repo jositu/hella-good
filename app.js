@@ -33,7 +33,7 @@ d3.csv('data/PoliceKillingsUS.csv', (policedata) => {
         var heatMap = new HeatMap(d3.select("#map-holder"), policedata,
             function () {
                 PCoords.update(citydata, heatMap.selectedStates);
-                // Sankey.update(policedata, heatMap.selectedStates);
+                Sankey.update(policedata, heatMap.selectedStates);
             });
 
         var PCoords = new Parallel_Coords(d3.select("#pcoords-holder"), citydata, ["AL"]);

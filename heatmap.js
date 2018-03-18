@@ -101,7 +101,7 @@ function HeatMap(container, data, onUpdate) {
 
     var max = d3.max(d3.values(policeShootings));
     var scale = d3.scaleLinear().domain([0, max]).range([0, 1]);
-    d3.json("https://d3js.org/us-10m.v1.json", function (error, us) {
+    d3.json("data/states.json", function (error, us) {
         if (error) throw error;
 
         svg.append("g")
