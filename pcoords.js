@@ -5,7 +5,7 @@ function Parallel_Coords(container, data, initialStates) {
     var height = heightPcoords;
 
     // create the svg canvas
-    var svg = d3.select('#pcoords-holder')
+    var svg = container
         .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
@@ -30,7 +30,9 @@ function Parallel_Coords(container, data, initialStates) {
 
     // path of a given data point
     function path(d) {
-        return line(dimensions.map(function (p) { return [position(p), y[p](d[p])]; }));
+        return line(dimensions.map(function (p) {
+            return [position(p), y[p](d[p])];
+        }));
     }
     this.update = function (data, targetStates) {
         svg.selectAll("*").remove();
@@ -49,7 +51,9 @@ function Parallel_Coords(container, data, initialStates) {
         // find the dimensions (axes)
         x.domain(dimensions = d3.keys(data[0]).filter(function (d) {
             return d != "Geographic Area" && d != "City" && (y[d] = d3.scaleLinear()
-                .domain(d3.extent(data, function (p) { return +p[d]; }))
+                .domain(d3.extent(data, function (p) {
+                    return +p[d];
+                }))
                 .range([height, 0]));
         }));
 
@@ -69,7 +73,9 @@ function Parallel_Coords(container, data, initialStates) {
             .enter()
             .append("g")
             .attr("class", "dimension")
-            .attr("transform", function (d) { return "translate(" + x(d) + ")"; });
+            .attr("transform", function (d) {
+                return "translate(" + x(d) + ")";
+            });
         // ability to switch axes
         // .call(d3.drag()
         //     .on("start", function (d) {
@@ -97,25 +103,44 @@ function Parallel_Coords(container, data, initialStates) {
         // add ticks for axes
         g.append("g")
             .attr("class", "axis")
-            .each(function (d) { d3.select(this).call(d3.axisLeft(y[d]).ticks(5)); });
+            .each(function (d) {
+                d3.select(this).call(d3.axisLeft(y[d]).ticks(5));
+            });
 
         // add genre labels for each axis
         g.append("text")
-            .style("text-anchor", "middle")
-            .attr("y", -20)
+            .style("text-anchor", "start")
+            .attr("y", -15)
+            .attr("x", +0)
+            .attr("transform", function(d) {return "rotate(-45)";})
             .attr("font-size", 12)
             .text(function (d) {
-                if (d === "percent_completed_hs") { return "% Completed High School"; }
-                if (d === "Median Income") { return "Median Income"; }
-                if (d === "poverty_rate") { return "Poverty Rate"; }
-                if (d === "share_white") { return "% White"; }
-                if (d === "share_black") { return "% Black"; }
-                if (d === "share_native_american") { return "% Native American"; }
-                if (d === "share_asian") { return "% Asian"; }
-                if (d === "share_hispanic") { return "% Hispanic"; }
+                if (d === "percent_completed_hs") {
+                    return "% Completed HS";
+                }
+                if (d === "Median Income") {
+                    return "Median Income";
+                }
+                if (d === "poverty_rate") {
+                    return "Poverty Rate";
+                }
+                if (d === "share_white") {
+                    return "% White";
+                }
+                if (d === "share_black") {
+                    return "% Black";
+                }
+                if (d === "share_native_american") {
+                    return "% Native American";
+                }
+                if (d === "share_asian") {
+                    return "% Asian";
+                }
+                if (d === "share_hispanic") {
+                    return "% Hispanic";
+                }
             });
     };
 
     this.update(data, initialStates);
-
 }
