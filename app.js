@@ -22,6 +22,7 @@ d3.csv('./data/cityData.csv', type, function (data) {
         });
 
     var PCoords = new Parallel_Coords(d3.select("#pcoords-holder"), data, ["AL"]);
+    var Sankey = new SankeyDiagram(d3.select("#sankey-holder"), data);
 })
 
 function type(d) {
