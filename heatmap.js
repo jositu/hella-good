@@ -13,8 +13,8 @@ function HeatMap(container, data, onUpdate) {
 
     //console.log(width + ' ' + height);
     var svg = container.append('svg')
-        .attr('width',1000)
-        .attr('height',1000);
+        .attr('width',950)
+        .attr('height',600);
 
     
     var path = d3.geoPath();
