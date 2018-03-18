@@ -35,8 +35,6 @@ function Parallel_Coords(container, data, initialStates) {
     this.update = function (data, targetStates) {
         svg.selectAll("*").remove();
 
-        d3.csv('./data/cityData.csv', function (data) {
-
             var filteredData = data.filter(function (d) {
                 for (i = 0; i < targetStates.length; i++) {
                     if (d["Geographic Area"] === targetStates[i])
@@ -117,8 +115,6 @@ function Parallel_Coords(container, data, initialStates) {
                 .attr("y", -20)
                 .attr("font-size", 12)
                 .text(d => d);
-
-        });
     };
 
     this.update(data, initialStates);
