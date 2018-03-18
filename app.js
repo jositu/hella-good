@@ -11,7 +11,7 @@ let widthMap = fullWidthMap - marginMap.right - marginMap.left;
 let heightMap = fullHeightMap - marginMap.top - marginMap.bottom;
 
 let marginPcoords = {
-    top: 130,
+    top: 95,
     right: 10,
     bottom: 10,
     left: 50

@@ -110,9 +110,9 @@ function Parallel_Coords(container, data, initialStates) {
         // add genre labels for each axis
         g.append("text")
             .style("text-anchor", "start")
-            .attr("y", +5)
-            .attr("x", +10)
-            .attr("transform", function(d) {return "rotate(-90)";})
+            .attr("y", -15)
+            .attr("x", +0)
+            .attr("transform", function(d) {return "rotate(-45)";})
             .attr("font-size", 12)
             .text(function (d) {
                 if (d === "percent_completed_hs") {
