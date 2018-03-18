@@ -16,7 +16,6 @@ function HeatMap(container, data, onUpdate) {
         .attr('width',1000)
         .attr('height',1000);
 
-    //var svg = container.append('svg');
     
     var path = d3.geoPath();
     
@@ -82,25 +81,44 @@ function HeatMap(container, data, onUpdate) {
       74 : 'UM', 
       78 : 'VI', 
     }
-     
     
-    d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
-      if (error) throw error;
-    
-      svg.append("g")
-          .attr("class", "states")
-        .selectAll("path")
-        .data(topojson.feature(us, us.objects.states).features)
-        .enter().append("path")
-          .attr("d", path)
-        .on('click',function(d) {
-            console.log(idToState[parseInt(d.id)]);
+    d3.csv('./data/PoliceKillingsUS.csv', function(data){
+        policeShootings = {};
+
+        data.forEach(function(datum){
+            if (!(datum.state in policeShootings)) {
+                policeShootings[datum.state] = 1;
+            } else {
+                policeShootings[datum.state]++;
+            }
+
         })
-    
-      svg.append("path")
-          .attr("class", "state-borders")
-          .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })));
-    });
+
+        var max = d3.max(d3.values(policeShootings));
+        var scale = d3.scaleLinear().domain([0, max]).range([0, 1]);
+        d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
+            if (error) throw error;
+
+        
+
+
+            svg.append("g")
+                .attr("class", "states")
+              .selectAll("path")
+              .data(topojson.feature(us, us.objects.states).features)
+              .enter().append("path")
+                .attr("d", path)
+              .attr('fill',function(d) { return d3.interpolateBlues(scale(policeShootings[idToState[parseInt(d.id)]]));})
+              .on('click',function(d) {
+                  console.log(idToState[parseInt(d.id)]);
+              })
+          
+            svg.append("path")
+                .attr("class", "state-borders")
+                .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })));
+          });
+          
+    })
     
 
 }
