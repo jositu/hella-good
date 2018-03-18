@@ -53,17 +53,7 @@ function Parallel_Coords(container, data, initialStates) {
                     .range([height, 0]));
             }));
 
-            // add grey background lines for context (all data)
-            // var background = svg.append("g")
-            //     .attr("class", "background")
-            //     .selectAll("path")
-            //     .data(data)
-            //     .enter()
-            //     .append("path")
-            //     .attr("d", path)
-            //     .style("opacity", 0.08);
-
-            // add blue foreground lines for selection (filtered data)
+            // add blue lines for selection (filtered data)
             var foreground = svg.append("g")
                 .attr("class", "foreground")
                 .selectAll("path")
@@ -71,7 +61,7 @@ function Parallel_Coords(container, data, initialStates) {
                 .enter()
                 .append("path")
                 .attr("d", path)
-                .style("opacity", +((total - ftotal) / total) * 0.01);
+                .style("opacity", +((total - ftotal) / total) * 0.05);
 
             // add a group element for each dimension.
             var g = svg.selectAll(".dimension")
@@ -79,30 +69,30 @@ function Parallel_Coords(container, data, initialStates) {
                 .enter()
                 .append("g")
                 .attr("class", "dimension")
-                .attr("transform", function (d) { return "translate(" + x(d) + ")"; })
+                .attr("transform", function (d) { return "translate(" + x(d) + ")"; });
                 // ability to switch axes
-                .call(d3.drag()
-                    .on("start", function (d) {
-                        dragging[d] = x(d);
-                        background.attr("visibility", "hidden");
-                    })
-                    .on("drag", function (d) {
-                        dragging[d] = Math.min(width, Math.max(0, d3.event.x));
-                        foreground.attr("d", path);
-                        dimensions.sort(function (a, b) { return position(a) - position(b); });
-                        x.domain(dimensions);
-                        g.attr("transform", function (d) { return "translate(" + position(d) + ")"; })
-                    })
-                    .on("end", function (d) {
-                        delete dragging[d];
-                        transition(d3.select(this)).attr("transform", "translate(" + x(d) + ")");
-                        transition(foreground).attr("d", path);
-                        background.attr("d", path)
-                            .transition()
-                            .delay(500)
-                            .duration(0)
-                            .attr("visibility", null);
-                    }));
+                // .call(d3.drag()
+                //     .on("start", function (d) {
+                //         dragging[d] = x(d);
+                //         background.attr("visibility", "hidden");
+                //     })
+                //     .on("drag", function (d) {
+                //         dragging[d] = Math.min(width, Math.max(0, d3.event.x));
+                //         foreground.attr("d", path);
+                //         dimensions.sort(function (a, b) { return position(a) - position(b); });
+                //         x.domain(dimensions);
+                //         g.attr("transform", function (d) { return "translate(" + position(d) + ")"; })
+                //     })
+                //     .on("end", function (d) {
+                //         delete dragging[d];
+                //         transition(d3.select(this)).attr("transform", "translate(" + x(d) + ")");
+                //         transition(foreground).attr("d", path);
+                //         background.attr("d", path)
+                //             .transition()
+                //             .delay(500)
+                //             .duration(0)
+                //             .attr("visibility", null);
+                //     }));
 
             // add ticks for axes
             g.append("g")
@@ -114,7 +104,16 @@ function Parallel_Coords(container, data, initialStates) {
                 .style("text-anchor", "middle")
                 .attr("y", -20)
                 .attr("font-size", 12)
-                .text(d => d);
+                .text(function(d) {
+                    if (d === "percent_completed_hs") {return "% Completed High School";}
+                    if (d === "Median Income") {return "Median Income";}
+                    if (d === "poverty_rate") {return "Poverty Rate";}
+                    if (d === "share_white") {return "% White";}
+                    if (d === "share_black") {return "% Black";}
+                    if (d === "share_native_american") {return "% Native American";}
+                    if (d === "share_asian") {return "% Asian";}
+                    if (d === "share_hispanic") {return "% Hispanic";}
+                });
     };
 
     this.update(data, initialStates);

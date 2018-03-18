@@ -1,11 +1,21 @@
 // define the dimensions of the graph display wrt window
-let marginMap = { top: 10, right: 10, bottom: 50, left: 120 };
+let marginMap = {
+    top: 10,
+    right: 10,
+    bottom: 50,
+    left: 120
+};
 let fullWidthMap = 600;
 let fullHeightMap = 500;
 let widthMap = fullWidthMap - marginMap.right - marginMap.left;
 let heightMap = fullHeightMap - marginMap.top - marginMap.bottom;
 
-let marginPcoords = { top: 40, right: 20, bottom: 10, left: 50 };
+let marginPcoords = {
+    top: 40,
+    right: 20,
+    bottom: 10,
+    left: 50
+};
 let fullWidthPcoords = window.innerWidth * 0.5;
 let fullHeightPcoords = window.innerHeight * 0.5;
 let widthPcoords = fullWidthPcoords - marginPcoords.right - marginPcoords.left;
