@@ -56,14 +56,14 @@ function Parallel_Coords(container, data, initialStates) {
             }));
 
             // add grey background lines for context (all data)
-            var background = svg.append("g")
-                .attr("class", "background")
-                .selectAll("path")
-                .data(data)
-                .enter()
-                .append("path")
-                .attr("d", path)
-                .style("opacity", 0.08);
+            // var background = svg.append("g")
+            //     .attr("class", "background")
+            //     .selectAll("path")
+            //     .data(data)
+            //     .enter()
+            //     .append("path")
+            //     .attr("d", path)
+            //     .style("opacity", 0.08);
 
             // add blue foreground lines for selection (filtered data)
             var foreground = svg.append("g")
