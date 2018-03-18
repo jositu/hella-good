@@ -1,12 +1,4 @@
-// let widthPcoords = fullWidthPcoords - marginPcoords.right - marginPcoords.left;
-// let heightPcoords = fullHeightPcoords - marginPcoords.top - marginPcoords.bottom;
-
-d3.csv('data/cityData.csv', function(data) {
-	console.log(data);
-	var parallel_coordinates = new PCoords(d3.select("#pcoords-holder"), data, "AL");
-});
-
-function PCoords(container, data, initialState) {
+function Parallel_Coords(container, data, initialState) {
 	console.log('main.js');
 
 	// set margins of the graph
