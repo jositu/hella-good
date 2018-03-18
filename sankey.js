@@ -27,20 +27,7 @@ function SankeyDiagram(container, data) {
 
 
     d3.csv('data/PoliceKillingsUS.csv', (data) => {
-        console.log(data);
-        sankey_data = format_data_to_sankey(data);
-        field_options = get_all_field_options(sankey_data);
-        console.log(field_options);
-        nodes = get_nodes(field_options);
-        console.log(nodes);
-        node_to_index = get_node_to_index_mapping(nodes);
-        console.log(node_to_index);
-        sankey_table = get_table(sankey_data, node_to_index, zero_table);
-        console.log(sankey_table);
-        links = get_links(sankey_table, node_to_index);
-        console.log(links);
-        sankey_json = { 'nodes': nodes, 'links': links };
-
+        sankey_json = format_data_to_sankey(data);
         initSankey();
     });
 
@@ -109,6 +96,10 @@ function SankeyDiagram(container, data) {
             .text((d) => { return d.name + '\n' + formatSankey(d.value); });
     }
 
+    this.update = function (data, selection) {
+        svgSankey.selectAll('*').remove();
+    }
+
     function get_links(table, node_to_index) {
         let links = [];
         for (i = 0; i < table.length; i++) {
@@ -143,6 +134,7 @@ function SankeyDiagram(container, data) {
     }
 
     function format_data_to_sankey(data) {
+        console.log(data);
         let sankey_data = [];
         let sankey_entry = {};
         let mapping = {
@@ -214,8 +206,18 @@ function SankeyDiagram(container, data) {
             num_entries++;
             sankey_data.push(sankey_entry);
         }
+        field_options = get_all_field_options(sankey_data);
+        console.log(field_options);
+        nodes = get_nodes(field_options);
+        console.log(nodes);
+        node_to_index = get_node_to_index_mapping(nodes);
+        console.log(node_to_index);
+        sankey_table = get_table(sankey_data, node_to_index, zero_table);
+        console.log(sankey_table);
+        links = get_links(sankey_table, node_to_index);
+        console.log(links);
 
-        return sankey_data;
+        return { 'nodes': nodes, 'links': links };
     }
 
     function get_all_field_options(dataset) {
