@@ -114,8 +114,10 @@ function HeatMap(container, data, onUpdate) {
             .on('click', function (d) {
                 var state = idToState[parseInt(d.id)];
                 if (states.has(state)) {
+                    d3.select(this).style("fill", function (d) { return d3.interpolateBlues(scale(policeShootings[idToState[parseInt(d.id)]]));} );
                     states.delete(state);
                 } else {
+                    d3.select(this).style("fill" , "black");
                     states.add(state);
                 }
                 me.selectedStates = [...states];
