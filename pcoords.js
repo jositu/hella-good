@@ -18,6 +18,8 @@ function Parallel_Coords(container, data, initialStates) {
     var dragging = {};
     var line = d3.line();
 
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
+
     // find position of an axis
     function position(d) {
         var v = dragging[d];
@@ -65,6 +67,7 @@ function Parallel_Coords(container, data, initialStates) {
             .enter()
             .append("path")
             .attr("d", path)
+            .style("stroke", function(d) {return color(d["Geographic Area"]);})
             .style("opacity", +((total - ftotal) / total) * 0.05);
 
         // add a group element for each dimension.
