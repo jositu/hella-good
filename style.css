@@ -268,7 +268,7 @@ a:hover {
 text {
     stroke: white;
     font-size: 11px;
-    stroke-width: 0.9;
-    font-family: Helvetica, Arial, sans-serif;
+    stroke-width: 1.0;
+    font-family: Helvetica;
     font-weight: 100;
 }
