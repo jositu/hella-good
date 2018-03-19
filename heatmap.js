@@ -8,8 +8,8 @@ function HeatMap(container, data, onUpdate) {
             .attr('class', 'tooltipMap')
 
     var svg = container.append('svg')
-        .attr('width', 950)
-        .attr('height', 600);
+        .attr('width', 750)
+        .attr('height', 500);
     var path = d3.geoPath();
     //multi-selection for states
     states = new Set();
@@ -93,6 +93,7 @@ function HeatMap(container, data, onUpdate) {
         if (error) throw error;
 
         svg.append("g")
+            .attr('transform','scale(0.8)')
             .attr("class", "states")
             .selectAll("path")
             .data(topojson.feature(us, us.objects.states).features)
@@ -144,7 +145,7 @@ function HeatMap(container, data, onUpdate) {
     });
 
     var w = 424,
-        h = 51;
+        h = 50;
 
     var key = d3.select("#legend1")
         .append("svg")
@@ -176,13 +177,13 @@ function HeatMap(container, data, onUpdate) {
         .attr("stop-opacity", 1);
 
     key.append("rect")
-        .attr("width", w)
-        .attr("height", h - 30)
+        .attr("width", w -40)
+        .attr("height", h - 40)
         .style("fill", "url(#gradient)")
-        .attr("transform", "translate(10,10)");
+        .attr("transform", "translate(10,15)");
 
     var y = d3.scaleLinear()
-        .range([0, 424])
+        .range([0, w-40])
         .domain([0, 424]);
 
     var yAxis = d3.axisBottom()
