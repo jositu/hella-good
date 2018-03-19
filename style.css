@@ -203,7 +203,7 @@ a:hover {
 
 .background path {
     fill: none;
-    stroke: #ddd;
+    stroke: #fff;
     shape-rendering: crispEdges;
 }
 

@@ -34,7 +34,7 @@ d3.csv('data/PoliceKillingsUS.csv', (policedata) => {
                 Sankey.update(policedata, heatMap.selectedStates);
             });
 
-        var PCoords = new Parallel_Coords(d3.select("#pcoords-holder"), citydata, ["CA"]);
+        var PCoords = new Parallel_Coords(d3.select("#pcoords-holder"), citydata, policedata, ["CA"]);
 
         var Sankey = new SankeyDiagram(d3.select("#sankey-holder"), policedata);
 

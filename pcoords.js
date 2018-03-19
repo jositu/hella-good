@@ -1,4 +1,4 @@
-function Parallel_Coords(container, data, initialStates) {
+function Parallel_Coords(container, data, policedata, initialStates) {
 
     var margin = marginPcoords;
     var width = widthPcoords;
@@ -40,8 +40,27 @@ function Parallel_Coords(container, data, initialStates) {
             }
         });
 
-        var ftotal = Object.keys(filteredData).length;
+        var filteredPoliceData = policedata.filter(function (d) {
+           for (i = 0; i < targetStates.length; i++) {
+               if (d["state"] === targetStates[i])
+                return d;
+           } 
+        });
 
+        var targetCities = new Set();
+       filteredPoliceData.forEach(function(d) {
+            if (targetCities.has(d.city)) {}
+            else targetCities.add(d.city.toLowerCase());
+        });
+
+        var targetData = filteredData.filter(function(d) {
+            if (targetCities.has(d["City"].toLowerCase())) {
+                return d;
+            }
+        });
+
+        var ftotal = Object.keys(filteredData).length;
+        var dtotal = Object.keys(targetData).length;
         var total = Object.keys(data).length;
 
         // find the dimensions (axes)
@@ -63,16 +82,27 @@ function Parallel_Coords(container, data, initialStates) {
                 .range([height, 0]));
         }));
 
-        // add blue lines for selection (filtered data)
-        var foreground = svg.append("g")
-            .attr("class", "foreground")
+        // add lines for all cities in that state (filtered Data)
+        var background = svg.append("g")
+            .attr("class", "background")
             .selectAll("path")
             .data(filteredData)
             .enter()
             .append("path")
             .attr("d", path)
+            // .style("stroke", function(d) {return color(d["Geographic Area"]);})
+            .style("opacity", +((total - ftotal) / total) * 0.03);
+
+        // add lines for only cities that had shootings (target Data)
+        var foreground = svg.append("g")
+            .attr("class", "foreground")
+            .selectAll("path")
+            .data(targetData)
+            .enter()
+            .append("path")
+            .attr("d", path)
             .style("stroke", function(d) {return color(d["Geographic Area"]);})
-            .style("opacity", +((total - ftotal) / total) * 0.07);
+            .style("opacity", +((total - dtotal) / total) * 0.7);
 
         // add a group element for each dimension.
         var g = svg.selectAll(".dimension")
