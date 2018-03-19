@@ -119,8 +119,8 @@ function HeatMap(container, data, onUpdate) {
             .on("mousemove", (d) => {
                 let state = idToState[parseInt(d['id'])];
                 tooltipMap
-                    .style('left', d3.event.pageX - 120 + 'px')
-                    .style('top', d3.event.pageY - 145 + 'px')
+                    .style('left', d3.event.pageX - 70 + 'px')
+                    .style('top', d3.event.pageY - 100 + 'px')
                     .style('display', 'inline-block')
                     .html(
                         state +
