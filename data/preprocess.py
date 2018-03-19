@@ -59,6 +59,7 @@ res = pd.merge(res,race,left_on=['Geographic Area','City'],right_on=['Geographic
 
 res = res.replace('(x)', np.NaN)
 res = res.replace('(X)', np.NaN)
+res = res.replace('-',np.NaN)
 res = res.dropna(how='any')
 res = res.drop(columns = ['Geographic area'])
-res.to_csv('result.csv',index=False)
+res.to_csv('cityData.csv',index=False)
