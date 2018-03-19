@@ -1,16 +1,16 @@
 function HeatMap(container, data, onUpdate) {
 
-    var boundingBox = container.node().getBoundingClientRect();
+    var tooltipMap;
 
-    var width = boundingBox.width;
-    var height = boundingBox.height;
+    tooltipMap =
+        d3.select('#map-holder')
+        .append('div')
+        .attr('class', 'tooltipMap')
 
     var svg = container.append('svg')
         .attr('width', 950)
         .attr('height', 600);
-
     var path = d3.geoPath();
-
     //multi-selection for states
     states = new Set();
     this.selectedStates = [];
@@ -77,28 +77,16 @@ function HeatMap(container, data, onUpdate) {
         74: 'UM',
         78: 'VI',
     }
-
     policeShootings = {};
-    console.log(typeof data);
-    console.log('asdfasdf', data);
-
-
-    // data.forEach(function (datum) {
-    //     if (!(datum.state in policeShootings)) {
-    //         policeShootings[datum.state] = 1;
-    //     } else {
-    //         policeShootings[datum.state]++;
-    //     }
-    // });
-
+    let total_shootings = 0;
     for (datum of data) {
         if (!(datum.state in policeShootings)) {
             policeShootings[datum.state] = 1;
         } else {
             policeShootings[datum.state]++;
         }
+        total_shootings++;
     }
-
     var max = d3.max(d3.values(policeShootings));
     var scale = d3.scaleLinear().domain([0, max]).range([0.2, 1]);
     d3.json("data/states.json", function (error, us) {
@@ -110,27 +98,39 @@ function HeatMap(container, data, onUpdate) {
             .data(topojson.feature(us, us.objects.states).features)
             .enter().append("path")
             .attr("d", path)
-            .attr('fill', function (d) { return d3.interpolateBlues(scale(policeShootings[idToState[parseInt(d.id)]])); })
-            .on('click', function (d) {
-                var state = idToState[parseInt(d.id)];
-                if (states.has(state)) {
-                    d3.select(this).style("fill", function (d) { return d3.interpolateBlues(scale(policeShootings[idToState[parseInt(d.id)]]));} );
-                    states.delete(state);
-                } else {
-                    d3.select(this).style("fill" , "black");
-                    states.add(state);
-                }
-                me.selectedStates = [...states];
-                console.log(me.selectedStates);
-                onUpdate();
+            .attr('fill', function (d) {
+                return d3.interpolateReds(scale(policeShootings[idToState[parseInt(d.id)]]));
             })
+            .on("mousemove", (d) => {
+                let state = idToState[parseInt(d['id'])];
+                console.log(state);
+                console.log(policeShootings);
+                tooltipMap
+                    .style('left', d3.event.pageX - 50 + 'px')
+                    .style('top', d3.event.pageY - 90 + 'px')
+                    .style('display', 'inline-block')
+                    .html(
+                        state 
+                        + '<br><span>' + policeShootings[state] + ' killings</span>'
+                        + '<br><span>' + (policeShootings[state] / total_shootings * 100).toFixed(2) + '% of killings</span>' 
+                         
+                    );
+
+            })
+            .on("mouseout", (d) => {
+                tooltipMap.style('display', 'none');
+            });
+
 
         svg.append("path")
             .attr("class", "state-borders")
-            .attr("d", path(topojson.mesh(us, us.objects.states, function (a, b) { return a !== b; })));
+            .attr("d", path(topojson.mesh(us, us.objects.states, function (a, b) {
+                return a !== b;
+            })));
     });
 
-    var w = 424, h = 50;
+    var w = 424,
+        h = 50;
 
     var key = d3.select("#legend1")
         .append("svg")
@@ -148,17 +148,17 @@ function HeatMap(container, data, onUpdate) {
 
     legend.append("stop")
         .attr("offset", "0%")
-        .attr("stop-color", d3.interpolateBlues(.2))
+        .attr("stop-color", d3.interpolateReds(.2))
         .attr("stop-opacity", 1);
 
     legend.append("stop")
         .attr("offset", "50%")
-        .attr("stop-color", d3.interpolateBlues(.6))
+        .attr("stop-color", d3.interpolateReds(.6))
         .attr("stop-opacity", 1);
 
     legend.append("stop")
         .attr("offset", "100%")
-        .attr("stop-color", d3.interpolateBlues(1))
+        .attr("stop-color", d3.interpolateReds(1))
         .attr("stop-opacity", 1);
 
     key.append("rect")
