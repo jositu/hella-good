@@ -49,7 +49,6 @@ function SankeyDiagram(container, data) {
             .attr('height', fullHeightSankey)
             .append('g')
             .attr('transform', 'translate(' + marginSankey.left + ',' + marginSankey.top + ')');
-        // format variables
         formatNumberSankey = d3.format(',.2f'); // 2 decimal places
         colorSankey = d3.scaleOrdinal(d3.schemeCategory20);
         formatSankey = function (d) {
@@ -96,10 +95,6 @@ function SankeyDiagram(container, data) {
                     );
             })
             .on('mouseout', (d) => { tooltipSankey.style('display', 'none'); });
-        // linkSankey.append('title')
-        //     .text((d) => {
-        //         return d.source.name + " -> " + d.target.name + "\n" + formatSankey(d.value);
-        //     });
         nodeSankey = nodeSankey
             .data(sankey_json['nodes'])
             .enter().append('g')
@@ -120,7 +115,6 @@ function SankeyDiagram(container, data) {
             .attr('y', (d) => { return d.y0; })
             .attr('height', (d) => { return d.y1 - d.y0; })
             .attr('width', (d) => { return d.x1 - d.x0; })
-            // .attr('fill', (d) => { return colorSankey(d.name.replace(/ .*/, "")); })
             .attr('fill', (d) => { return 'plum'; })
             .attr('stroke', '#333');
         nodeSankey.append('text')
@@ -132,8 +126,6 @@ function SankeyDiagram(container, data) {
             .filter((d) => { return d.x0 < widthSankey / 2; })
             .attr('x', (d) => { return d.x1 + 6; })
             .attr('text-anchor', 'start');
-        // nodeSankey.append('title')
-        //     .text((d) => { return d.name + '\n' + formatSankey(d.value); });
     }
 
     function get_links(table, node_to_index) {

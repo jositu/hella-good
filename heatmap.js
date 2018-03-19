@@ -4,8 +4,8 @@ function HeatMap(container, data, onUpdate) {
 
     tooltipMap =
         d3.select('#map-holder')
-        .append('div')
-        .attr('class', 'tooltipMap')
+            .append('div')
+            .attr('class', 'tooltipMap')
 
     var svg = container.append('svg')
         .attr('width', 950)
@@ -109,7 +109,8 @@ function HeatMap(container, data, onUpdate) {
                     });
                     states.delete(state);
                 } else {
-                    d3.select(this).style("fill", "black");
+                    d3.select(this)
+                        .style("fill", function(d) {return color(state)});
                     states.add(state);
                 }
                 me.selectedStates = [...states];
