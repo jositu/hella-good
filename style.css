@@ -267,8 +267,8 @@ a:hover {
 
 text {
     stroke: white;
-    font-size: 11px;
+    font-size: 12px;
     stroke-width: 1.0;
-    font-family: Helvetica;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 100;
 }
