@@ -1,9 +1,9 @@
 function HeatMap(container, data, onUpdate) {
 
-    var boundingBox = container.node().getBoundingClientRect();
+    // var boundingBox = container.node().getBoundingClientRect();
 
-    var width = boundingBox.width;
-    var height = boundingBox.height;
+    // var width = boundingBox.width * .6;
+    // var height = boundingBox.height * .6;
 
     var svg = container.append('svg')
         .attr('width', 950)
@@ -82,15 +82,6 @@ function HeatMap(container, data, onUpdate) {
     console.log(typeof data);
     console.log('asdfasdf', data);
 
-
-    // data.forEach(function (datum) {
-    //     if (!(datum.state in policeShootings)) {
-    //         policeShootings[datum.state] = 1;
-    //     } else {
-    //         policeShootings[datum.state]++;
-    //     }
-    // });
-
     for (datum of data) {
         if (!(datum.state in policeShootings)) {
             policeShootings[datum.state] = 1;
@@ -114,10 +105,10 @@ function HeatMap(container, data, onUpdate) {
             .on('click', function (d) {
                 var state = idToState[parseInt(d.id)];
                 if (states.has(state)) {
-                    d3.select(this).style("fill", function (d) { return d3.interpolateBlues(scale(policeShootings[idToState[parseInt(d.id)]]));} );
+                    d3.select(this).style("fill", function (d) { return d3.interpolateBlues(scale(policeShootings[idToState[parseInt(d.id)]])); });
                     states.delete(state);
                 } else {
-                    d3.select(this).style("fill" , "black");
+                    d3.select(this).style("fill", "black");
                     states.add(state);
                 }
                 me.selectedStates = [...states];
