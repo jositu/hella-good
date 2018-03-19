@@ -51,6 +51,7 @@ h4 {
     min-width: 100px;
 }
 
+
 /* SANKEY */
 
 .nodes-sankey>path rect {
@@ -106,6 +107,7 @@ h4 {
     font-weight: 500;
     color: indigo;
 }
+
 
 /* */
 
@@ -211,7 +213,7 @@ a:hover {
 }
 
 .axis text {
-    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+    /* text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff; */
     font-size: 11px;
 }
 
