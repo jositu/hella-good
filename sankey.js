@@ -1,7 +1,12 @@
 function SankeyDiagram(container, data) {
-    let marginSankey = { top: 0, right: 0, bottom: 0, left: 0 };
-    let fullWidthSankey = window.innerWidth * 0.45;
-    let fullHeightSankey = window.innerHeight * 0.45;
+    let fullWidthSankey = window.innerWidth * 0.5;
+    let fullHeightSankey = window.innerHeight * 0.5;
+    let marginSankey = {
+        top: 0,
+        right: fullWidthSankey - (fullWidthSankey * 0.90),
+        bottom: 0,
+        left: fullWidthSankey - (fullWidthSankey * 0.95)
+    };
     let widthSankey = fullWidthSankey - marginSankey.right - marginSankey.left;
     let heightSankey = fullHeightSankey - marginSankey.top - marginSankey.bottom;
 
@@ -18,16 +23,18 @@ function SankeyDiagram(container, data) {
     this.update = function (data, selection) {
         container.selectAll('*').remove();
 
-        let filtered_data = data.filter((d) => {
-            for (state of selection) {
-                if (d['state'] === state) {
-                    return d;
+        if (selection.length === 0) {
+            initSankey(data);
+        } else {
+            let filtered_data = data.filter((d) => {
+                for (state of selection) {
+                    if (d['state'] === state) {
+                        return d;
+                    }
                 }
-            }
-        });
-        console.log('filtered data', filtered_data);
-
-        initSankey(filtered_data);
+            });
+            initSankey(filtered_data);
+        }
     }
 
     function initSankey(data) {
@@ -82,7 +89,7 @@ function SankeyDiagram(container, data) {
             .attr('height', (d) => { return d.y1 - d.y0; })
             .attr('width', (d) => { return d.x1 - d.x0; })
             // .attr('fill', (d) => { return colorSankey(d.name.replace(/ .*/, "")); })
-            .attr('fill', (d) => { return 'blue'; })
+            .attr('fill', (d) => { return 'plum'; })
             .attr('stroke', '#000');
         nodeSankey.append('text')
             .attr('x', (d) => { return d.x0 - 6; })
