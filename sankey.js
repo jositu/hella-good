@@ -19,6 +19,32 @@ function SankeyDiagram(container, data) {
     let nodeSankey;
 
     let index_to_node;
+    let node_to_category = {
+        'armed': 'Armed?: ',
+        'unarmed': 'Armed?: ',
+        'hand weapon': 'Armed?: ',
+        'vehicle': 'Armed?: ',
+        'undetermined if armed': 'Armed?: ',
+        'male': 'Gender: ',
+        'female': 'Gender: ',
+        'asian': 'Race: ',
+        'white': 'Race: ',
+        'hispanic': 'Race: ',
+        'black': 'Race: ',
+        'other Race': 'Race: ',
+        'native american': 'Race: ',
+        'mentally ill': '',
+        'not mentally ill': '',
+        'attacking': 'Threat Level: ',
+        'not attacking': 'Threat Level: ',
+        'undetermined': 'Threat Level: ',
+        'not fleeing': '',
+        'fleeing by car': '',
+        'fleeing on foot': '',
+        'unsure': 'Fleeing?: ',
+        'no body camera': 'Body Camera: ',
+        'body camera': 'Body Camera: ',
+    };
 
     let tooltipSankey;
 
@@ -104,7 +130,7 @@ function SankeyDiagram(container, data) {
                     .style('top', d3.event.pageY - 90 + 'px')
                     .style('display', 'inline-block')
                     .html(
-                        d['name']
+                        node_to_category[d['name']] + d['name']
                         + '<br><span>' + d['value'] + ' victims</span>'
                         + '<br><span>' + (d['value'] / num_entries * 100).toFixed(2) + ' % of victims</span>'
                     );
