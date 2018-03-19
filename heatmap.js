@@ -110,11 +110,11 @@ function HeatMap(container, data, onUpdate) {
             .data(topojson.feature(us, us.objects.states).features)
             .enter().append("path")
             .attr("d", path)
-            .attr('fill', function (d) { return d3.interpolateBlues(scale(policeShootings[idToState[parseInt(d.id)]])); })
+            .attr('fill', function (d) { return d3.interpolateReds(scale(policeShootings[idToState[parseInt(d.id)]])); })
             .on('click', function (d) {
                 var state = idToState[parseInt(d.id)];
                 if (states.has(state)) {
-                    d3.select(this).style("fill", function (d) { return d3.interpolateBlues(scale(policeShootings[idToState[parseInt(d.id)]]));} );
+                    d3.select(this).style("fill", function (d) { return d3.interpolateReds(scale(policeShootings[idToState[parseInt(d.id)]]));} );
                     states.delete(state);
                 } else {
                     d3.select(this).style("fill" , "black");
@@ -130,7 +130,7 @@ function HeatMap(container, data, onUpdate) {
             .attr("d", path(topojson.mesh(us, us.objects.states, function (a, b) { return a !== b; })));
     });
 
-    var w = 424, h = 50;
+    var w = 424, h = 51;
 
     var key = d3.select("#legend1")
         .append("svg")
@@ -148,17 +148,17 @@ function HeatMap(container, data, onUpdate) {
 
     legend.append("stop")
         .attr("offset", "0%")
-        .attr("stop-color", d3.interpolateBlues(.2))
+        .attr("stop-color", d3.interpolateReds(.2))
         .attr("stop-opacity", 1);
 
     legend.append("stop")
         .attr("offset", "50%")
-        .attr("stop-color", d3.interpolateBlues(.6))
+        .attr("stop-color", d3.interpolateReds(.6))
         .attr("stop-opacity", 1);
 
     legend.append("stop")
         .attr("offset", "100%")
-        .attr("stop-color", d3.interpolateBlues(1))
+        .attr("stop-color", d3.interpolateReds(1))
         .attr("stop-opacity", 1);
 
     key.append("rect")
@@ -180,9 +180,9 @@ function HeatMap(container, data, onUpdate) {
         .attr("transform", "translate(10,30)")
         .call(yAxis)
         .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0)
+        .attr("y", -30)
+        .attr("x", +0)
         .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("axis title");
+        .style("text-anchor", "start")
+        .text("Fatal Police Shootings per State");
 }

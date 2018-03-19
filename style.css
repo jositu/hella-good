@@ -1,22 +1,40 @@
 .container {
     display: grid;
     grid-template-rows: auto;
-    grid-template-areas: 'header header' 'map map' 'pcoord sankey' 'pcoordlabel sankeylabel';
-    grid-gap: 10px;
-    padding: 10px;
+    grid-template-areas: 
+        'header header header pcoordlabel'
+        'header header header pcoord'
+        'map map map pcoord'
+        'map map map pcoord'
+        'map map map pcoord'
+        'map map map pcoord'
+        'map map map pcoord'
+        'map map map pcoord'
+        'map map map sankeylabel'
+        'map map map sankey'
+        'map map map sankey'
+        'map map map sankey'
+        'map map map sankey'
+        'map map map sankey'
+        'map map map sankey'
+        'map map map sankey';
+    grid-gap: 10px 0px;
+    /* padding: 10px; */
+    /* background: #333; */
 }
 
 .container>div {
-    text-align: center;
+    /* text-align: center; */
 }
 
 #header {
+    text-justify: left;
     grid-area: header;
 }
 
 #map-holder {
     grid-area: map;
-    background-color: plum;
+    /* background-color: plum; */
 }
 
 #sankey-holder {
@@ -29,6 +47,7 @@
 
 #pcoordlabel {
     grid-area: pcoordlabel;
+    margin: 0px;
 }
 
 #sankeylabel {
@@ -36,11 +55,11 @@
 }
 
 .card {
-    border: 2px solid lightgray;
+    background: #333;
+    /* border: 2px solid lightgray; */
     padding: 0.5em 0.5em 0.5em 0.5em;
     min-width: 100px;
 }
-
 
 /* SANKEY */
 
@@ -57,7 +76,7 @@
 
 .links-sankey>path {
     fill: none;
-    stroke: #000;
+    stroke: #fff;
     stroke-opacity: .16;
 }
 
@@ -65,39 +84,47 @@
     stroke-opacity: .5;
 }
 
-
-/* */
-
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1em;
-    margin: 10px;
+    margin: 10px; 
+    color: white;
+    background: #333;
 }
 
 h1 {
+    color: white;
     line-height: 1em;
     font-weight: 900;
+    margin: 20px;
+}
+
+h2 {
+    line-height: 0.5;
 }
 
 h4 {
+    color: white;
     line-height: 0.5em;
     font-weight: 600;
+    margin: 15px;
 }
 
 a {
     text-decoration: none;
-    color: steelblue;
+    color: #fff;
 }
 
 a:hover {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: #333;
 }
 
 .tooltip {
     background: #eee;
     box-shadow: 0 0 5px #999999;
-    color: #333;
+    color: #eee;
+    /* color: #333; */
     display: none;
     font-size: 12px;
     left: 130px;
@@ -118,8 +145,9 @@ a:hover {
 }
 
 .states {
-    stroke: black;
-    stroke-width: 1px;
+    /* stroke: black; */
+    stroke: #333;
+    stroke-width: 2px;
 }
 
 .state-borders {
@@ -154,12 +182,19 @@ a:hover {
 .axis line,
 .axis path {
     fill: none;
-    stroke: #000;
+    stroke: white;
     shape-rendering: crispEdges;
-    opacity: 0.10;
+    opacity: 0.9;
 }
 
 .axis text {
     text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
     font-size: 11px;
+}
+
+text {
+    stroke: white;
+    font-size: 12px;
+    stroke-width: 1;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }

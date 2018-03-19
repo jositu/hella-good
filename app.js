@@ -11,13 +11,13 @@ let widthMap = fullWidthMap - marginMap.right - marginMap.left;
 let heightMap = fullHeightMap - marginMap.top - marginMap.bottom;
 
 let marginPcoords = {
-    top: 95,
+    top: 90,
     right: 10,
     bottom: 10,
     left: 50
 };
-let fullWidthPcoords = window.innerWidth * 0.5;
-let fullHeightPcoords = window.innerHeight * 0.5;
+let fullWidthPcoords = window.innerWidth * 0.40;
+let fullHeightPcoords = window.innerHeight * 0.40;
 let widthPcoords = fullWidthPcoords - marginPcoords.right - marginPcoords.left;
 let heightPcoords = fullHeightPcoords - marginPcoords.top - marginPcoords.bottom;
 
