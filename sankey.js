@@ -115,7 +115,8 @@ function SankeyDiagram(container, data) {
             .attr('y', (d) => { return d.y0; })
             .attr('height', (d) => { return d.y1 - d.y0; })
             .attr('width', (d) => { return d.x1 - d.x0; })
-            .attr('fill', (d) => { return 'plum'; })
+            // .attr('fill', (d) => { return colorSankey(d.name.replace(/ .*/, "")); })
+            .attr('fill', (d) => { return 'lightsalmon'; })
             .attr('stroke', '#333');
         nodeSankey.append('text')
             .attr('x', (d) => { return d.x0 - 6; })
