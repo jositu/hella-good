@@ -13,18 +13,25 @@ function SankeyDiagram(container, data) {
     let linkSankey;
     let nodeSankey;
 
-    let field_options = {};
-    let sankey_data = [];
-    let nodes = [];
-    let node_to_index = {};
-    let sankey_table = [];
-    let links = [];
-    let sankey_json = {};
     let num_entries = 0;
 
-    let zero_table = get_zero_table(24);
+    this.update = function (data, selection) {
+        container.selectAll('*').remove();
 
-    function initSankey() {
+        let filtered_data = data.filter((d) => {
+            for (state of selection) {
+                if (d['state'] === state) {
+                    return d;
+                }
+            }
+        });
+        console.log('filtered data', filtered_data);
+
+        initSankey(filtered_data);
+    }
+
+    function initSankey(data) {
+        let sankey_json = format_data_to_sankey(data);
         svgSankey = container
             .append('svg')
             .attr('width', fullWidthSankey)
@@ -33,10 +40,10 @@ function SankeyDiagram(container, data) {
             .attr('transform', 'translate(' + marginSankey.left + ',' + marginSankey.top + ')');
         // format variables
         formatNumberSankey = d3.format(',.2f'); // 2 decimal places
+        colorSankey = d3.scaleOrdinal(d3.schemeCategory20);
         formatSankey = function (d) {
             return (formatNumberSankey(d / num_entries * 100)) + '% of shootings';
         }
-        colorSankey = d3.scaleOrdinal(d3.schemeCategory20);
         // sankey diagram properties
         sankey = d3.sankey()
             .nodeWidth(10)
@@ -53,6 +60,7 @@ function SankeyDiagram(container, data) {
             .attr('font-family', 'sans-serif')
             .attr('font-size', 10)
             .selectAll('g');
+
         sankey(sankey_json);
         linkSankey = linkSankey
             .data(sankey_json['links'])
@@ -73,7 +81,8 @@ function SankeyDiagram(container, data) {
             .attr('y', (d) => { return d.y0; })
             .attr('height', (d) => { return d.y1 - d.y0; })
             .attr('width', (d) => { return d.x1 - d.x0; })
-            .attr('fill', (d) => { return colorSankey(d.name.replace(/ .*/, "")); })
+            // .attr('fill', (d) => { return colorSankey(d.name.replace(/ .*/, "")); })
+            .attr('fill', (d) => { return 'blue'; })
             .attr('stroke', '#000');
         nodeSankey.append('text')
             .attr('x', (d) => { return d.x0 - 6; })
@@ -88,14 +97,6 @@ function SankeyDiagram(container, data) {
             .text((d) => { return d.name + '\n' + formatSankey(d.value); });
     }
 
-    this.update = function (data, selection) {
-        svgSankey.selectAll('*').remove();
-
-        let filtered_data = data.filter(function(d) {
-            
-        })
-    }
-
     function get_links(table, node_to_index) {
         let links = [];
         for (i = 0; i < table.length; i++) {
@@ -108,16 +109,24 @@ function SankeyDiagram(container, data) {
         return links;
     }
 
-    function get_table(data, node_to_index, zero_table) {
-        let table = zero_table;
+    function get_table(data, node_to_index) {
+        let table = get_zero_table(Object.keys(node_to_index).length);
         for (entry of data) {
-            let genderIndex = node_to_index[entry['gender']];
-            let raceIndex = node_to_index[entry['race']];
-            let mentalIndex = node_to_index[entry['signs_of_mental_illness']];
-            let fleeIndex = node_to_index[entry['flee']];
-            let armedIndex = node_to_index[entry['armed']];
-            let threatIndex = node_to_index[entry['threat_level']];
-            let bodycamIndex = node_to_index[entry['body_camera']];
+            let genderIndex = -1;
+            let raceIndex = -1;
+            let mentalIndex = -1;
+            let fleeIndex = -1;
+            let armedIndex = -1;
+            let threatIndex = -1;
+            let bodycamIndex = -1;
+
+            genderIndex = node_to_index[entry['gender']];
+            raceIndex = node_to_index[entry['race']];
+            mentalIndex = node_to_index[entry['signs_of_mental_illness']];
+            fleeIndex = node_to_index[entry['flee']];
+            armedIndex = node_to_index[entry['armed']];
+            threatIndex = node_to_index[entry['threat_level']];
+            bodycamIndex = node_to_index[entry['body_camera']];
 
             table[genderIndex][raceIndex]++;
             table[raceIndex][mentalIndex]++;
@@ -131,6 +140,11 @@ function SankeyDiagram(container, data) {
 
     function format_data_to_sankey(data) {
         // console.log(data);
+        let field_options = {};
+        let nodes = [];
+        let node_to_index = {};
+        let sankey_table = [];
+        let links = [];
         let sankey_data = [];
         let sankey_entry = {};
         let mapping = {
@@ -208,7 +222,7 @@ function SankeyDiagram(container, data) {
         // console.log(nodes);
         node_to_index = get_node_to_index_mapping(nodes);
         // console.log(node_to_index);
-        sankey_table = get_table(sankey_data, node_to_index, zero_table);
+        sankey_table = get_table(sankey_data, node_to_index);
         // console.log(sankey_table);
         links = get_links(sankey_table, node_to_index);
         // console.log(links);
@@ -271,6 +285,5 @@ function SankeyDiagram(container, data) {
         return table;
     }
 
-    sankey_json = format_data_to_sankey(data);
-    initSankey();
+    initSankey(data);
 }
