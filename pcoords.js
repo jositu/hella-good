@@ -48,8 +48,6 @@ function Parallel_Coords(container, data, initialStates) {
 
         var ftotal = Object.keys(filteredData).length;
 
-        console.log(data[0]);
-
         var total = Object.keys(data).length;
 
         // find the dimensions (axes)
@@ -80,7 +78,7 @@ function Parallel_Coords(container, data, initialStates) {
             .append("path")
             .attr("d", path)
             .style("stroke", function(d) {return color(d["Geographic Area"]);})
-            .style("opacity", +((total - ftotal) / total) * 0.05);
+            .style("opacity", +((total - ftotal) / total) * 0.07);
 
         // add a group element for each dimension.
         var g = svg.selectAll(".dimension")

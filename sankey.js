@@ -67,8 +67,8 @@ function SankeyDiagram(container, data) {
         linkSankey = svgSankey.append('g')
             .attr('class', 'links-sankey')
             .attr('fill', 'none')
-            .attr('stroke', '#000')
-            .attr('stroke-opacity', 0.2)
+            .attr('stroke', '#fff')
+            .attr('stroke-opacity', 0.5)
             .selectAll('path');
         nodeSankey = svgSankey.append('g')
             .attr('class', 'nodes-sankey')
@@ -122,7 +122,7 @@ function SankeyDiagram(container, data) {
             .attr('width', (d) => { return d.x1 - d.x0; })
             // .attr('fill', (d) => { return colorSankey(d.name.replace(/ .*/, "")); })
             .attr('fill', (d) => { return 'plum'; })
-            .attr('stroke', '#000');
+            .attr('stroke', '#333');
         nodeSankey.append('text')
             .attr('x', (d) => { return d.x0 - 6; })
             .attr('y', (d) => { return (d.y1 + d.y0) / 2; })
