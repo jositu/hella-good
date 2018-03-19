@@ -5,8 +5,8 @@ let marginMap = {
     bottom: 50,
     left: 120
 };
-let fullWidthMap = 600;
-let fullHeightMap = 500;
+let fullWidthMap = window.innerWidth * .7;
+let fullHeightMap = window.innerHeight * .7;
 let widthMap = fullWidthMap - marginMap.right - marginMap.left;
 let heightMap = fullHeightMap - marginMap.top - marginMap.bottom;
 
@@ -16,14 +16,10 @@ let marginPcoords = {
     bottom: 10,
     left: 50
 };
-let fullWidthPcoords = window.innerWidth * 0.40;
-let fullHeightPcoords = window.innerHeight * 0.40;
+let fullWidthPcoords = window.innerWidth * 0.4;
+let fullHeightPcoords = window.innerHeight * 0.4;
 let widthPcoords = fullWidthPcoords - marginPcoords.right - marginPcoords.left;
 let heightPcoords = fullHeightPcoords - marginPcoords.top - marginPcoords.bottom;
-
-function type(d) {
-
-}
 
 d3.csv('data/PoliceKillingsUS.csv', (policedata) => {
     d3.csv('./data/cityData.csv', function (citydata) {
