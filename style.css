@@ -28,7 +28,7 @@
 }
 
 #header {
-    text-justify: left;
+    text-align: left;
     grid-area: header;
 }
 
