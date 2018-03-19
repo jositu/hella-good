@@ -48,11 +48,23 @@ function Parallel_Coords(container, data, initialStates) {
 
         var ftotal = Object.keys(filteredData).length;
 
+        console.log(data[0]);
+
         var total = Object.keys(data).length;
 
         // find the dimensions (axes)
         x.domain(dimensions = d3.keys(data[0]).filter(function (d) {
-            return d != "Geographic Area" && d != "City" && (y[d] = d3.scaleLinear()
+            return d != "Geographic Area" 
+                && d != "City" 
+                && d != "actual_completed_hs" 
+                && d != "actual_poverty_rate" 
+                && d != "actual_share_asian" 
+                && d != "actual_share_black" 
+                && d != "actual_share_hispanic"
+                && d != "actual_share_white"
+                && d != "actual_share_native_american"
+                && d != "population"
+                && (y[d] = d3.scaleLinear()
                 .domain(d3.extent(data, function (p) {
                     return +p[d];
                 }))
