@@ -52,7 +52,17 @@ function Parallel_Coords(container, data, initialStates) {
 
         // find the dimensions (axes)
         x.domain(dimensions = d3.keys(data[0]).filter(function (d) {
-            return d != "Geographic Area" && d != "City" && (y[d] = d3.scaleLinear()
+            return d != "Geographic Area" 
+                && d != "City" 
+                && d != "actual_completed_hs" 
+                && d != "actual_poverty_rate" 
+                && d != "actual_share_asian" 
+                && d != "actual_share_black" 
+                && d != "actual_share_hispanic"
+                && d != "actual_share_white"
+                && d != "actual_share_native_american"
+                && d != "population"
+                && (y[d] = d3.scaleLinear()
                 .domain(d3.extent(data, function (p) {
                     return +p[d];
                 }))
@@ -68,7 +78,7 @@ function Parallel_Coords(container, data, initialStates) {
             .append("path")
             .attr("d", path)
             .style("stroke", function(d) {return color(d["Geographic Area"]);})
-            .style("opacity", +((total - ftotal) / total) * 0.05);
+            .style("opacity", +((total - ftotal) / total) * 0.07);
 
         // add a group element for each dimension.
         var g = svg.selectAll(".dimension")

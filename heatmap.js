@@ -101,19 +101,32 @@ function HeatMap(container, data, onUpdate) {
             .attr('fill', function (d) {
                 return d3.interpolateReds(scale(policeShootings[idToState[parseInt(d.id)]]));
             })
+            .on('click', function (d) {
+                var state = idToState[parseInt(d.id)];
+                if (states.has(state)) {
+                    d3.select(this).style("fill", function (d) {
+                        return d3.interpolateReds(scale(policeShootings[idToState[parseInt(d.id)]]));
+                    });
+                    states.delete(state);
+                } else {
+                    d3.select(this).style("fill", "black");
+                    states.add(state);
+                }
+                me.selectedStates = [...states];
+                console.log(me.selectedStates);
+                onUpdate();
+            })
             .on("mousemove", (d) => {
                 let state = idToState[parseInt(d['id'])];
-                console.log(state);
-                console.log(policeShootings);
                 tooltipMap
-                    .style('left', d3.event.pageX - 50 + 'px')
-                    .style('top', d3.event.pageY - 90 + 'px')
+                    .style('left', d3.event.pageX - 120 + 'px')
+                    .style('top', d3.event.pageY - 145 + 'px')
                     .style('display', 'inline-block')
                     .html(
-                        state 
-                        + '<br><span>' + policeShootings[state] + ' killings</span>'
-                        + '<br><span>' + (policeShootings[state] / total_shootings * 100).toFixed(2) + '% of killings</span>' 
-                         
+                        state +
+                        '<br><span>' + policeShootings[state] + ' killings</span>' +
+                        '<br><span>' + (policeShootings[state] / total_shootings * 100).toFixed(2) + '% of killings</span>'
+
                     );
 
             })
@@ -130,7 +143,7 @@ function HeatMap(container, data, onUpdate) {
     });
 
     var w = 424,
-        h = 50;
+        h = 51;
 
     var key = d3.select("#legend1")
         .append("svg")
@@ -180,9 +193,9 @@ function HeatMap(container, data, onUpdate) {
         .attr("transform", "translate(10,30)")
         .call(yAxis)
         .append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0)
+        .attr("y", -30)
+        .attr("x", +0)
         .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("axis title");
+        .style("text-anchor", "start")
+        .text("Fatal Police Shootings per State");
 }

@@ -1,6 +1,6 @@
 function SankeyDiagram(container, data) {
-    let fullWidthSankey = window.innerWidth * 0.5;
-    let fullHeightSankey = window.innerHeight * 0.5;
+    let fullWidthSankey = window.innerWidth * 0.4;
+    let fullHeightSankey = window.innerHeight * 0.4;
     let marginSankey = {
         top: 0,
         right: fullWidthSankey - (fullWidthSankey * 0.90),
@@ -17,6 +17,10 @@ function SankeyDiagram(container, data) {
     let sankey;
     let linkSankey;
     let nodeSankey;
+
+    let index_to_node;
+
+    let tooltipSankey;
 
     let num_entries = 0;
 
@@ -51,6 +55,10 @@ function SankeyDiagram(container, data) {
         formatSankey = function (d) {
             return (formatNumberSankey(d / num_entries * 100)) + '% of shootings';
         }
+        tooltipSankey =
+            d3.select('#sankey-holder')
+                .append('div')
+                .attr('class', 'tooltipSankey');
         // sankey diagram properties
         sankey = d3.sankey()
             .nodeWidth(10)
@@ -59,8 +67,8 @@ function SankeyDiagram(container, data) {
         linkSankey = svgSankey.append('g')
             .attr('class', 'links-sankey')
             .attr('fill', 'none')
-            .attr('stroke', '#000')
-            .attr('stroke-opacity', 0.2)
+            .attr('stroke', '#fff')
+            .attr('stroke-opacity', 0.5)
             .selectAll('path');
         nodeSankey = svgSankey.append('g')
             .attr('class', 'nodes-sankey')
@@ -75,14 +83,38 @@ function SankeyDiagram(container, data) {
             .attr('d', d3.sankeyLinkHorizontal())
             .attr('stroke-width', (d) => {
                 return Math.max(1, d.width);
-            });
-        linkSankey.append('title')
-            .text((d) => {
-                return d.source.name + " -> " + d.target.name + "\n" + formatSankey(d.value);
-            });
+            })
+            .on('mousemove', (d) => {
+                tooltipSankey
+                    .style('left', d3.event.pageX - 50 + 'px')
+                    .style('top', d3.event.pageY - 90 + 'px')
+                    .style('display', 'inline-block')
+                    .html(
+                        index_to_node[d['source']['index']] + ' -> ' + index_to_node[d['target']['index']]
+                        + '<br><span>' + d['value'] + ' victims</span>'
+                        + '<br><span>' + (d['value'] / num_entries * 100).toFixed(2) + ' % of victims</span>'
+                    );
+            })
+            .on('mouseout', (d) => { tooltipSankey.style('display', 'none'); });
+        // linkSankey.append('title')
+        //     .text((d) => {
+        //         return d.source.name + " -> " + d.target.name + "\n" + formatSankey(d.value);
+        //     });
         nodeSankey = nodeSankey
             .data(sankey_json['nodes'])
-            .enter().append('g');
+            .enter().append('g')
+            .on('mousemove', (d) => {
+                tooltipSankey
+                    .style('left', d3.event.pageX - 50 + 'px')
+                    .style('top', d3.event.pageY - 90 + 'px')
+                    .style('display', 'inline-block')
+                    .html(
+                        d['name']
+                        + '<br><span>' + d['value'] + ' victims</span>'
+                        + '<br><span>' + (d['value'] / num_entries * 100).toFixed(2) + ' % of victims</span>'
+                    );
+            })
+            .on('mouseout', (d) => { tooltipSankey.style('display', 'none'); });
         nodeSankey.append('rect')
             .attr('x', (d) => { return d.x0; })
             .attr('y', (d) => { return d.y0; })
@@ -90,7 +122,7 @@ function SankeyDiagram(container, data) {
             .attr('width', (d) => { return d.x1 - d.x0; })
             // .attr('fill', (d) => { return colorSankey(d.name.replace(/ .*/, "")); })
             .attr('fill', (d) => { return 'plum'; })
-            .attr('stroke', '#000');
+            .attr('stroke', '#333');
         nodeSankey.append('text')
             .attr('x', (d) => { return d.x0 - 6; })
             .attr('y', (d) => { return (d.y1 + d.y0) / 2; })
@@ -100,8 +132,8 @@ function SankeyDiagram(container, data) {
             .filter((d) => { return d.x0 < widthSankey / 2; })
             .attr('x', (d) => { return d.x1 + 6; })
             .attr('text-anchor', 'start');
-        nodeSankey.append('title')
-            .text((d) => { return d.name + '\n' + formatSankey(d.value); });
+        // nodeSankey.append('title')
+        //     .text((d) => { return d.name + '\n' + formatSankey(d.value); });
     }
 
     function get_links(table, node_to_index) {
@@ -146,7 +178,6 @@ function SankeyDiagram(container, data) {
     }
 
     function format_data_to_sankey(data) {
-        // console.log(data);
         let field_options = {};
         let nodes = [];
         let node_to_index = {};
@@ -180,6 +211,7 @@ function SankeyDiagram(container, data) {
             'no body camera': 'no body camera',
             'body camera': 'body camera',
         }
+        num_entries = 0;
         for (entry of data) {
             if (entry['flee'] === '' || entry['race'] === '' || entry['armed'] === '') {
                 continue;
@@ -224,15 +256,11 @@ function SankeyDiagram(container, data) {
             sankey_data.push(sankey_entry);
         }
         field_options = get_all_field_options(sankey_data);
-        // console.log(field_options);
         nodes = get_nodes(field_options);
-        // console.log(nodes);
         node_to_index = get_node_to_index_mapping(nodes);
-        // console.log(node_to_index);
+        index_to_node = get_index_to_node_mapping(nodes);
         sankey_table = get_table(sankey_data, node_to_index);
-        // console.log(sankey_table);
         links = get_links(sankey_table, node_to_index);
-        // console.log(links);
 
         return { 'nodes': nodes, 'links': links };
     }
@@ -279,6 +307,16 @@ function SankeyDiagram(container, data) {
             i++;
         }
         return node_to_index;
+    }
+
+    function get_index_to_node_mapping(nodes) {
+        let index_to_node = {};
+        let i = 0;
+        for (node_dict of nodes) {
+            index_to_node[i.toString()] = node_dict['name'];
+            i++;
+        }
+        return index_to_node;
     }
 
     function get_zero_table(size) {
