@@ -90,6 +90,10 @@ function SankeyDiagram(container, data) {
 
     this.update = function (data, selection) {
         svgSankey.selectAll('*').remove();
+
+        let filtered_data = data.filter(function(d) {
+            
+        })
     }
 
     function get_links(table, node_to_index) {
