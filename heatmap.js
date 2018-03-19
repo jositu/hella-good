@@ -100,7 +100,7 @@ function HeatMap(container, data, onUpdate) {
     }
 
     var max = d3.max(d3.values(policeShootings));
-    var scale = d3.scaleLinear().domain([0, max]).range([0, 1]);
+    var scale = d3.scaleLinear().domain([0, max]).range([0.2, 1]);
     d3.json("data/states.json", function (error, us) {
         if (error) throw error;
 
@@ -148,12 +148,12 @@ function HeatMap(container, data, onUpdate) {
 
     legend.append("stop")
         .attr("offset", "0%")
-        .attr("stop-color", d3.interpolateBlues(0))
+        .attr("stop-color", d3.interpolateBlues(.2))
         .attr("stop-opacity", 1);
 
     legend.append("stop")
         .attr("offset", "50%")
-        .attr("stop-color", d3.interpolateBlues(.5))
+        .attr("stop-color", d3.interpolateBlues(.6))
         .attr("stop-opacity", 1);
 
     legend.append("stop")
