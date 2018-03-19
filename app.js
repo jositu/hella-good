@@ -17,7 +17,7 @@ let marginPcoords = {
     left: 50
 };
 let fullWidthPcoords = window.innerWidth * 0.4;
-let fullHeightPcoords = window.innerHeight * 0.4;
+let fullHeightPcoords = window.innerHeight * 0.35;
 let widthPcoords = fullWidthPcoords - marginPcoords.right - marginPcoords.left;
 let heightPcoords = fullHeightPcoords - marginPcoords.top - marginPcoords.bottom;
 

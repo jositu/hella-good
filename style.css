@@ -1,7 +1,21 @@
 .container {
     display: grid;
     grid-template-rows: auto;
-    grid-template-areas: 'header header header pcoordlabel' 'header header header pcoord' 'map map map pcoord' 'map map map pcoord' 'map map map pcoord' 'map map map pcoord' 'map map map pcoord' 'map map map pcoord' 'map map map sankeylabel' 'map map map sankey' 'map map map sankey' 'map map map sankey' 'map map map sankey' 'map map map sankey' 'map map map sankey' 'map map map sankey';
+    grid-template-areas: 
+        'header header header pcoordlabel'
+        'header header header pcoord'
+        'map map map pcoord'
+        'map map map pcoord'
+        'map map map pcoord'
+        'map map map pcoord'
+        'map map map sankeylabel'
+        'map map map sankey'
+        'map map map sankey'
+        'map map map sankey'
+        'map map map sankey'
+        'map map map sankey'
+        'map map map sankey'
+        'map map map sankey';
     grid-gap: 10px 0px;
     /* padding: 10px; */
     /* background: #333; */
@@ -248,4 +262,13 @@ a:hover {
 .tooltipMap span {
     font-weight: 500;
     color: indigo;
+    font-size: 11px;
+}
+
+text {
+    stroke: white;
+    font-size: 11px;
+    stroke-width: 0.9;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 100;
 }
