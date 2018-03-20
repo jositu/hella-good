@@ -1,5 +1,5 @@
 function SankeyDiagram(container, data) {
-    let fullWidthSankey = window.innerWidth * 0.4;
+    let fullWidthSankey = window.innerWidth * 0.55;
     let fullHeightSankey = window.innerHeight * 0.45;
     let marginSankey = {
         top: 0,
