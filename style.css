@@ -3,13 +3,12 @@
     grid-template-rows: auto;
     grid-template-areas: 
         'header header header pcoordlabel'
-        'header header header pcoord'
+        /* 'header header header pcoord' */
         'map map map pcoord'
         'map map map pcoord'
         'map map map pcoord'
         'map map map pcoord'
         'map map map sankeylabel'
-        'map map map sankey'
         'map map map sankey'
         'map map map sankey'
         'map map map sankey'
