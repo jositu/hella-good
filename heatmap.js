@@ -115,7 +115,6 @@ function HeatMap(container, data, onUpdate) {
                     states.add(state);
                 }
                 me.selectedStates = [...states];
-                console.log(me.selectedStates);
                 onUpdate();
             })
             .on("mousemove", (d) => {

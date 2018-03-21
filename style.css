@@ -203,7 +203,7 @@ a:hover {
 
 .background path {
     fill: none;
-    stroke: #fff;
+    stroke: black;
     shape-rendering: crispEdges;
 }
 
@@ -214,7 +214,8 @@ a:hover {
 
 .brush .extent {
     fill-opacity: .3;
-    stroke: #fff;
+    stroke:white;
+    stroke-width:10px;
     shape-rendering: crispEdges;
 }
 
