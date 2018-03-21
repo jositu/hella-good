@@ -30,6 +30,27 @@ function Parallel_Coords(container, data, policedata, initialStates) {
             return [position(p), y[p](d[p])];
         }));
     }
+
+    var legend2 = d3.select("#legend2")
+    .append("svg");
+
+    // legend2.append("rect")
+    //     .attr("x", 50)
+    //     .attr("y", 50)
+    //     .attr("width", 20)
+    //     .attr("height", 20)
+    //     .style("fill", "white");
+    //     .style("opacity", +0.5);
+
+    legend2.append("text") 
+        .attr("x", 30)
+        .attr("y", 30)
+        .style("stroke", "#fff")
+        // .style("opacity", 1)
+        .text("White: cities without shootings");
+
+
+
     this.update = function (data, targetStates) {
         svg.selectAll("*").remove();
 
@@ -154,25 +175,6 @@ function Parallel_Coords(container, data, policedata, initialStates) {
                     return "% Hispanic";
                 }
             });
-
-        var legend2 = d3.select("#legend2")
-            .append("svg");
-
-        // legend2.append("rect")
-        //     .attr("x", 50)
-        //     .attr("y", 50)
-        //     .attr("width", 20)
-        //     .attr("height", 20)
-        //     .style("fill", "white");
-        //     .style("opacity", +0.5);
-
-        legend2.append("text") 
-            .attr("x", 30)
-            .attr("y", 30)
-            .style("stroke", "#fff")
-            // .style("opacity", 1)
-            .text("White: cities without shootings");
-
     };
 
     this.update(data, initialStates);
