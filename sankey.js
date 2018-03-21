@@ -115,7 +115,7 @@ function SankeyDiagram(container, data) {
                     .style('top', d3.event.pageY - 90 + 'px')
                     .style('display', 'inline-block')
                     .html(
-                        index_to_node[d['source']['index']] + ' -> ' + index_to_node[d['target']['index']]
+                        index_to_node[d['source']['index']] + ' &#10141 ' + index_to_node[d['target']['index']]
                         + '<br><span>' + d['value'] + ' victims</span>'
                         + '<br><span>' + (d['value'] / num_entries * 100).toFixed(2) + ' % of victims</span>'
                     );
